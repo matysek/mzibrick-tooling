@@ -131,10 +131,5 @@ Next checks:
 
 3. Verify operator logs:
    oc logs -n openshift-insights <insights-operator-pod>
-
-If you want, I can also generate:
-- an uninstall script
-- a debug script for CSR / addon status
-- a version-pinning config
 EOF
 
