@@ -42,6 +42,11 @@ echo "✅ Detected Toolbox environment. Proceeding..."
 # --- Step 2: Install System Dependencies (DNF) ---
 echo "--- 📦 Installing System Dependencies (Python 3.11, ffmpeg, git) ---"
 
+# Enable RPM Fusion repositories for full FFmpeg with codecs
+echo "   Enabling RPM Fusion repositories for FFmpeg with codec support..."
+sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+                     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
 # First, ensure python3.11 is available
 echo "   Installing Python 3.11..."
 sudo dnf install -y python3.11
@@ -52,11 +57,14 @@ sudo dnf install -y \
     python3.11-pip \
     python3.11-numpy \
     python3.11-tkinter \
-    ffmpeg \
     gcc \
     git \
-    portaudio-devel \
-    openh264
+    portaudio-devel
+
+# Install FFmpeg with full codec support from RPM Fusion
+# Swap to RPM Fusion version if currently using limited Fedora version
+echo "   Installing FFmpeg with full codec support (libx264, etc.)..."
+sudo dnf swap -y ffmpeg-free ffmpeg --allowerasing || sudo dnf install -y ffmpeg
 
 # Verify Python 3.11 is available
 if ! command -v python3.11 &> /dev/null; then
@@ -102,7 +110,9 @@ python -c "import numpy; print(f'✅ System numpy {numpy.__version__} is availab
 # 2. basic-pitch (Audio to MIDI)
 # 3. whackerhero (The specific Boomwhacker generator tool)
 #    Note: Installing directly from GitHub to ensure latest version
-echo "   Installing yt-dlp, basic-pitch, and WhackerHero..."
+# 4. mido (MIDI file manipulation for transposition)
+# 5. music21 (Music theory library for key detection)
+echo "   Installing yt-dlp, basic-pitch, WhackerHero, mido, and music21..."
 
 # Install yt-dlp normally
 pip install yt-dlp
@@ -119,6 +129,12 @@ pip install moviepy==1.0.3
 # Installing WhackerHero from the source we found (allejok96/whackerhero)
 # Using modern Direct URL requirement syntax instead of deprecated #egg= format
 pip install "whackerhero @ git+https://github.com/allejok96/whackerhero.git"
+
+# Install mido for MIDI file manipulation (transposition and octave limiting)
+pip install mido
+
+# Install music21 for music theory features (key detection)
+pip install music21
 
 # --- Step 5: Success Message ---
 echo ""
