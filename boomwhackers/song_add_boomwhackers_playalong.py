@@ -1,16 +1,38 @@
+#!/usr/bin/env python3
+
 import os
 import sys
 import subprocess
 import glob
 from PIL import Image
 
-def run_command(cmd):
+def run_command(cmd, capture_output=False):
     """Helper to run shell commands and handle errors."""
     try:
-        subprocess.check_call(cmd, shell=True)
+        if capture_output:
+            result = subprocess.run(cmd, shell=True, check=True, 
+                                  capture_output=True, text=True)
+            return result.stdout
+        else:
+            # Let output stream normally for real-time feedback
+            subprocess.check_call(cmd, shell=True)
     except subprocess.CalledProcessError as e:
-        print(f"Error running command: {cmd}")
-        sys.exit(1)
+        print(f"\n❌ Command failed: {cmd}")
+        raise
+
+def get_nodejs_path():
+    """Get Node.js executable path if available."""
+    # Try common node executable names
+    for node_cmd in ['node', 'nodejs']:
+        try:
+            result = subprocess.run(['which', node_cmd], 
+                                   capture_output=True, text=True, check=True)
+            node_path = result.stdout.strip()
+            if node_path:
+                return node_path
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            continue
+    return None
 
 def get_input_files(user_input, work_dir):
     """
@@ -25,9 +47,28 @@ def get_input_files(user_input, work_dir):
         print(f"--- Downloading from YouTube: {user_input} ---")
         # Download Video (Best MP4)
         video_out = os.path.join(work_dir, "video_bg.mp4")
-        cmd_vid = f'yt-dlp -f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]" -o "{video_out}" "{user_input}"'
-        run_command(cmd_vid)
-        video_path = video_out
+        # Use more flexible format selection
+        # Explicitly specify Node.js as JS runtime if available
+        node_path = get_nodejs_path()
+        js_runtime_flag = f'--js-runtimes node:{node_path} ' if node_path else ""
+        cmd_vid = (
+            f'yt-dlp --no-warnings {js_runtime_flag}'
+            f'-f "bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio/best[ext=mp4]/best" '
+            f'-o "{video_out}" "{user_input}"'
+        )
+        try:
+            run_command(cmd_vid)
+            video_path = video_out
+        except subprocess.CalledProcessError:
+            print("\n⚠️  YouTube download failed. Possible reasons:")
+            print("  1. Video may be unavailable (private, deleted, or region-locked)")
+            print("  2. yt-dlp may need a JavaScript runtime (install nodejs or deno)")
+            print("  3. Network connectivity issues")
+            print("\nTo install a JS runtime for better YouTube support:")
+            print("  - Node.js: Install via your package manager (e.g., 'dnf install nodejs')")
+            print("  - Deno: See https://deno.land/")
+            print("\nYou can also try downloading the video manually and providing the file path.")
+            sys.exit(1)
 
         # Extract Audio (MP3) for Basic Pitch
         audio_out = os.path.join(work_dir, "audio_input.mp3")
@@ -58,7 +99,7 @@ def get_input_files(user_input, work_dir):
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 boom_gen.py <YouTube_URL_or_File_Path>")
+        print("Usage: python3 song_add_boomwhackers_playalong.py <YouTube_URL_or_File_Path>")
         sys.exit(1)
 
     user_input = sys.argv[1]
