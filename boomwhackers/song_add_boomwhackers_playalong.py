@@ -181,11 +181,11 @@ def process_midi(midi_path, output_path):
         mid.save(output_path)
         return
 
-    # Step 3: Calculate 2-octave window
+    # Step 3: Calculate 1-octave window
     median_pitch = statistics.median(all_notes)
-    # Center the 2-octave window (24 semitones) around median
-    window_min = int(median_pitch - 12)
-    window_max = int(median_pitch + 12)
+    # Center the 1-octave window (12 semitones) around median
+    window_min = int(median_pitch - 6)
+    window_max = int(median_pitch + 6)
 
     # Get note names for display
     note_names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
