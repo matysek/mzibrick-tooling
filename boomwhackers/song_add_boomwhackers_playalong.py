@@ -295,12 +295,12 @@ def process_video(user_input, work_dir, preview_mode=False, output_filename=None
         # Complex Filter Explanation:
         # [0:v] -> Input 0 (Background Video)
         # [1:v] -> Input 1 (Whacker Video with Black BG)
-        # blend=all_mode='screen' -> Makes black pixels transparent, keeps colored bars
+        # colorkey=0x000000 -> Makes black pixels transparent, preserving original colors
         cmd_combine = (
             f'ffmpeg -i "{video_bg}" -i "{whacker_output}" '
             f'-filter_complex "[0:v]scale=1920:1080:force_original_aspect_ratio=decrease,pad=1920:1080:(ow-iw)/2:(oh-ih)/2[bg];'
-            f'[1:v]scale=1920:1080[fg];'
-            f'[bg][fg]blend=all_mode=\'screen\':shortest=1[out]" '
+            f'[1:v]colorkey=0x000000:similarity=0.01:blend=0.0,scale=1920:1080[fg];'
+            f'[bg][fg]overlay=shortest=1[out]" '
             f'-map "[out]" -map 0:a -c:v libx264 -crf 23 -preset fast "{output_filename}" -y'
         )
         run_command(cmd_combine)
