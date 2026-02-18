@@ -1,0 +1,7 @@
+{
+  "name": "boomwhackers-plugin",
+  "version": "1.0.0",
+  "description": "Plugin for generating Boomwhacker play-along videos from audio/video files",
+  "author": "mzibrick",
+  "skills": ["boomwhackers"]
+}

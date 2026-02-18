@@ -138,6 +138,18 @@ This repository includes customizations for improved visibility:
 - This reduces the number of columns, giving each note more horizontal space
 - Results in clearer, more readable visualizations
 
+## Project Files
+
+This repository includes:
+- **Source code**: `song_add_boomwhackers_playalong.py` - Main processing script
+- **Setup**: `setup_env.sh` - Environment setup script
+- **Patch**: `whackerhero-bigger-notes.patch` + `apply-whackerhero-patch.sh` - Note size enhancement
+- **Documentation**: `README.md`, `SKILL_GUIDE.md`, `GIT_WORKFLOW.md`
+- **Claude skill**: `.claude/plugins/boomwhackers-plugin/` - For Claude Code integration
+- **Git config**: `.gitignore` - Ignores generated files, virtual environment, etc.
+
+See `GIT_WORKFLOW.md` for details on what to commit and what to ignore.
+
 ## Credits
 
 * **[Basic Pitch](https://github.com/spotify/basic-pitch):** Audio-to-MIDI conversion.

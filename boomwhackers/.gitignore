@@ -1,0 +1,149 @@
+# Boomwhackers Project .gitignore
+
+# Virtual Environment
+venv_boomwhacker/
+venv/
+env/
+.venv/
+
+# Temporary Processing Directory
+bw_project_temp/
+
+# Output Videos (generated files)
+Final_Boomwhacker_Video.mp4
+Preview_Boomwhacker_Video.mp4
+Preview_Boomwhacker_Video-*.mp4
+boomwhackers-*.mp4
+
+# Input Videos/Audio (uncomment if you want to track these)
+# *.mp4
+# *.webm
+# *.avi
+# *.mkv
+# *.mp3
+# *.wav
+# *.m4a
+# *.ogg
+# *.flac
+
+# Generated MIDI files
+*.mid
+*.midi
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# FFmpeg temporary files
+*.ffmpeg_tmp
+*.part
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Compressed files (if not needed)
+# *.zip
+# *.tar.gz
+# *.rar
+
+# Claude Code (keep the plugin, but ignore some cached data)
+.claude/cache/
+.claude/debug/
+.claude/downloads/
+.claude/file-history/
+.claude/history.jsonl
+.claude/image-cache/
+.claude/session-env/
+.claude/shell-snapshots/
+.claude/stats-cache.json
+.claude/todos/
+
+# Keep these Claude files
+!.claude/plugins/
+!.claude/settings.json
+
+# Test/debug images and videos (adjust as needed)
+test_*.mp4
+test_*.mp3
+debug_*.mp4
