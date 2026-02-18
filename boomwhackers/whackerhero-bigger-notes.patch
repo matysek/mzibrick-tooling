@@ -1,0 +1,11 @@
+--- a/whackerhero.py
++++ b/whackerhero.py
+@@ -24,7 +24,7 @@
+ HIT_LINE_COLOR = (255, 255, 255)  # white
+ LINE_OPACITY = 180  # 0 is transparent and 255 is opaque
+ LINE_WIDTH = 0.05  # of column width
+-NOTE_WIDTH = 0.3  # of column width
++NOTE_WIDTH = 0.6  # of column width
+ SIDE_MARGIN = 0.05  # of screen width
+
+ # Names and colors of notes, should be in this order
