@@ -179,7 +179,7 @@ def process_midi(midi_path, output_path):
         print("   ⚠️  No notes found in MIDI file")
         # Just copy the file
         mid.save(output_path)
-        return
+        return 0
 
     # Step 3: Calculate 1-octave window
     median_pitch = statistics.median(all_notes)
@@ -213,6 +213,7 @@ def process_midi(midi_path, output_path):
     # Save processed MIDI
     mid.save(output_path)
     print(f"   Processed MIDI saved: {output_path}")
+    return transpose_semitones
 
 def trim_audio(input_path, output_path, duration_seconds=10):
     """
@@ -226,6 +227,38 @@ def trim_audio(input_path, output_path, duration_seconds=10):
     cmd = f'ffmpeg -i "{input_path}" -t {duration_seconds} -acodec copy "{output_path}" -y'
     run_command(cmd)
     print(f"   Trimmed audio to {duration_seconds} seconds: {output_path}")
+
+def transpose_audio(input_path, output_path, semitones):
+    """
+    Transpose audio pitch by specified number of semitones using FFmpeg.
+
+    Args:
+        input_path: Path to input audio file
+        output_path: Path to save transposed audio
+        semitones: Number of semitones to shift (positive = up, negative = down)
+    """
+    if semitones == 0:
+        # No transposition needed, just copy the file
+        import shutil
+        shutil.copy(input_path, output_path)
+        print(f"   No transposition needed (0 semitones)")
+        return
+
+    # Calculate pitch ratio: 2^(semitones/12)
+    # FFmpeg asetrate filter formula: new_rate = original_rate * 2^(semitones/12)
+    # Then aresample back to original rate to preserve tempo
+    pitch_ratio = 2 ** (semitones / 12)
+
+    # Use FFmpeg to shift pitch while preserving tempo
+    # Method: asetrate changes both pitch and tempo, then atempo corrects tempo
+    cmd = (
+        f'ffmpeg -i "{input_path}" '
+        f'-af "asetrate=44100*{pitch_ratio},aresample=44100,atempo={1/pitch_ratio}" '
+        f'"{output_path}" -y'
+    )
+
+    run_command(cmd)
+    print(f"   Transposed audio by {semitones:+d} semitones: {output_path}")
 
 def process_video(user_input, work_dir, preview_mode=False, output_filename=None):
     """
@@ -267,7 +300,13 @@ def process_video(user_input, work_dir, preview_mode=False, output_filename=None
 
     # 3. Process MIDI (Transpose and Limit Octaves)
     processed_midi = os.path.join(work_dir, "processed.mid")
-    process_midi(midi_file, processed_midi)
+    transpose_semitones = process_midi(midi_file, processed_midi)
+
+    # 3.5. Transpose Audio to Match MIDI
+    print("--- Transposing Audio to Match MIDI ---")
+    transposed_audio = os.path.join(work_dir, "transposed_audio.mp3")
+    transpose_audio(audio_to_process, transposed_audio, transpose_semitones)
+    audio_to_process = transposed_audio  # Use transposed audio from this point on
 
     # 4. Generate WhackerHero Video (Black Background)
     print("--- Generating Boomwhacker Visuals ---")
