@@ -11,8 +11,8 @@ description: >-
 
 # rh-quarterly-connection-goals-accomplishments-ideas
 
-Draft accomplishments and goal ideas for the Workday Quarterly Connection
-based on the Jira and PR/MR reports produced by the companion skills.
+Draft accomplishments and goal ideas for the Workday Quarterly Connection based
+on the Jira and PR/MR reports produced by the companion skills.
 
 ## Pre-requisites
 
@@ -33,12 +33,15 @@ ask the user for service tokens.
 
 - **Quarter:** Should contain the year and quarter number (e.g. 2026Q2)
 - **Assignee:** The user's name
+- **Accomplishment count:** 3 in the combined goals/accomplishments report, or
+  the number explicitly requested by the user (e.g. 6 accomplishment drafts).
 
 ## User invocation
 
 The user may say things like:
 - "suggest goals for my quarterly connection"
 - "draft accomplishments for 2026Q2"
+- "create 6 accomplishment drafts"
 - "help me write the goals section"
 - "quarterly connection goals"
 
@@ -50,65 +53,95 @@ Read both files:
 
 Extract:
 - Epics and their status (completed, in progress, blocked)
-- Tasks the user contributed to (including in other people's epics)
-- PR/MR themes, counts, and key contributions
-- Cross-team work, external contributions
-- Oncall/watch duty weeks and incidents handled
+- Tasks the user contributed to, including work in other people's epics
+- Comment-discovered Jira work, especially cross-quarter follow-ups, production
+  validation comments, CVE/security verification, and next-quarter follow-up
+  epics
+- PR/MR themes, counts, key contributions, merged/open/closed states, and major
+  repos touched
+- Cross-team or external contributions, especially upstream/reference PRs
+- On-call/watch-duty weeks and incidents handled
+- Any explicitly called-out obstacles or risks, such as testing risk,
+  dependency/build limitations, or upstream capacity constraints
 
 ## Step 2: Draft accomplishments
 
-Write 3 accomplishments. Each accomplishment should:
-- Start with a strong action verb ("Successfully fixed...",
-  "Took stewardship of...", "Helped pioneer...")
-- Describe the challenge or context briefly
-- State what was done concretely (repos, PRs, environments)
-- Mention obstacles overcome if relevant (organizational changes,
-  cross-team coordination, timeline pressure)
-- End with the impact or outcome
-- Include Jira links in parentheses at the end
+Write accomplishment drafts. In the combined report, write 3 accomplishments by
+default. If the user asks for a specific number (for example "create 6
+accomplishment drafts"), write that many and export a separate accomplishment
+file.
 
-Follow with a "How I did it:" section — 4-6 bullet points using
+Each accomplishment should:
+- Start with a strong action verb ("Successfully fixed...",
+  "Took stewardship of...", "Helped pioneer...", "Strengthened...",
+  "Supported...")
+- Describe the challenge or context briefly
+- State what was done concretely (repos, PRs/MRs, environments, validation,
+  comments, or reports)
+- Mention obstacles overcome if relevant (cross-team coordination, upstream
+  capacity, testing risk, build constraints, timeline pressure)
+- End with the impact or outcome
+- Include Jira links in parentheses at the end when relevant
+- Include PR/MR links after the narrative when they support the accomplishment
+
+Follow with a **How I did it:** section — 4–6 bullet points using
 action-oriented phrases. Typical phrases:
-- Demonstrated high resilience and strong determination to overcome
-  challenges
+- Demonstrated high resilience and strong determination to overcome challenges
 - Seeing projects through to completion
 - Maintained a clear focus on objectives
 - Building relationships outside the team
 - Leveraging the technical expertise of other teams by asking the right
   questions
 - Focusing on long-term productivity and efficiency
-- Stay calm and patient under pressure
+- Staying calm and patient under pressure
+- Demonstrated ownership by closing the loop on validation and documentation
 
-Tailor these to the actual work — add a brief concrete example after
-each phrase.
+Tailor these to the actual work — add a brief concrete example after each
+phrase.
+
+### Accomplishment theme selection
+
+Prefer distinct themes rather than near-duplicates. Common themes from the input
+reports may include:
+
+- Deep technical investigation / root-cause work
+- Build performance, CI, dependency, or supply-chain improvements
+- Safety/security/performance improvements in upstream libraries
+- Operational stability, on-call/watch-duty, and production validation
+- DevPreview or feature-readiness support
+- AI/tooling or reporting automation
+
+If the user asks for 6 drafts, provide six distinct options. It is OK for some
+accomplishments to be narrower than the top three, as long as they are factual
+and supported by the reports.
 
 ### Example accomplishment
 
 > Successfully fixed a persistent memory leak in company-messaging services
 > (archive-sync, rules-processing, rules-uploader) that process data from
-> customers' container platform clusters. Two engineers had previously attempted the
-> fix without much progress. I root-caused the issue across three upstream
-> libraries, created upstream patches with unit tests, implemented a
-> workaround to unblock deployment, and rolled out the fix to stage and
-> prod. The fix stabilized memory consumption across all affected
-> production services. ([PROJ-16283](https://redhat.atlassian.net/browse/PROJ-16283),
+> customers' container platform clusters. Two engineers had previously attempted
+> the fix without much progress. I root-caused the issue across three upstream
+> libraries, created upstream patches with unit tests, implemented a workaround
+> to unblock deployment, and rolled out the fix to stage and prod. The fix
+> stabilized memory consumption across all affected production services.
+> ([PROJ-16283](https://redhat.atlassian.net/browse/PROJ-16283),
 > [PROJ-16284](https://redhat.atlassian.net/browse/PROJ-16284),
 > [PROJ-16542](https://redhat.atlassian.net/browse/PROJ-16542)).
 
 ### Example "How I did it" bullets
 
-> - Demonstrated high resilience and strong determination to overcome
->   challenges despite organizational turbulence and personal difficulties.
-> - Seeing projects through to completion — drove the memleak fix from
->   root cause to prod rollout across 3 repos and 13 PRs.
+> - Demonstrated high resilience and strong determination to overcome challenges
+>   despite organizational turbulence and personal difficulties.
+> - Seeing projects through to completion — drove the memleak fix from root
+>   cause to prod rollout across 3 repos and 13 PRs.
 > - Building relationships outside the team — coordinated with
->   upstream-core-lib maintainers via internal Slack channels, platform SRE team for prod
->   promotions, and the AI tooling team for early testing.
+>   upstream-core-lib maintainers via internal Slack channels, platform SRE team
+>   for prod promotions, and the AI tooling team for early testing.
 
 ## Step 3: Draft goal ideas
 
-Generate 6-7 goal ideas mixing **performance goals** (work delivered)
-and **development/learning goals** (new skills, exploration).
+Generate 6–7 goal ideas mixing **performance goals** (work delivered) and
+**development/learning goals** (new skills, exploration).
 
 ### Goal format
 
@@ -141,10 +174,10 @@ I did:
 
 > **1. [CY26Q2] Fix company-messaging memory leak end-to-end — from root cause to prod rollout**
 >
-> Our company-messaging services had a growing memory leak in production.
-> A previous attempt by two engineers didn't fully resolve it. The bug
-> spanned three upstream libraries, requiring cross-repo coordination
-> and an interim workaround.
+> Our company-messaging services had a growing memory leak in production. A
+> previous attempt by two engineers didn't fully resolve it. The bug spanned
+> three upstream libraries, requiring cross-repo coordination and an interim
+> workaround.
 >
 > Key-results:
 > - Root-cause the memory leak
@@ -152,8 +185,8 @@ I did:
 > - Roll the fix through stage and prod for all affected services
 >
 > I did:
-> - Root-caused the leak: a circular reference in upstream-messaging-lib
->   plus unbounded Prometheus metric cardinality.
+> - Root-caused the leak: a circular reference in upstream-messaging-lib plus
+>   unbounded Prometheus metric cardinality.
 > - Created and merged upstream patches across 3 repos (13 PRs total).
 > - Implemented a workaround in company-messaging to unblock deployment while
 >   the upstream fix awaited review.
@@ -168,16 +201,19 @@ I did:
 ### Typical performance goal themes
 
 - Bug fixes or incident resolution (end-to-end, from root cause to prod)
-- Infrastructure or CI improvements across repos
+- Infrastructure, CI, build, or dependency improvements across repos
 - Dependency management or supply chain changes
-- Oncall/watch duty and operational response
+- On-call/watch-duty and operational response
+- DevPreview / feature-readiness support
+- Internal tooling or AI-assisted workflow automation
 
 ### Typical development goal themes
 
 - Learning upstream contribution workflows
+- Learning hermetic builds, package indexes, dependency locking, or Konflux
 - Adopting new tools (AI, observability, testing frameworks)
 - Cross-team collaboration or gig assignments
-- Improving observability or debugging skills
+- Improving observability, profiling, performance, or debugging skills
 
 ### Example development goal
 
@@ -185,8 +221,8 @@ I did:
 >
 > Contributing to upstream libraries (upstream-messaging-lib,
 > upstream-core-lib) requires a different workflow than team-owned code —
-> cross-team review processes, fork-based contributions, and coordinating
-> with maintainers who may have different priorities.
+> cross-team review processes, fork-based contributions, and coordinating with
+> maintainers who may have different priorities.
 >
 > Key-results:
 > - Understand the upstream contribution workflow for upstream-core-lib ecosystem
@@ -194,36 +230,40 @@ I did:
 > - Document the release process for future contributors
 >
 > I did:
-> - Learned the full upstream contribution cycle: fork → PR → cross-team
->   review via internal Slack channels → merge → release → downstream bump.
-> - Bootstrapped a repo that had zero CI and zero tests — added GitHub
->   Actions, pre-commit, CODEOWNERS, unit tests, and migrated to
->   pyproject.toml.
-> - Learned that upstream merge timelines are unpredictable — implemented
->   a downstream workaround pattern to unblock deployment while waiting.
-> - PRs: [upstream-messaging-lib #76](GIT-REPO-URL),
->   [#77](GIT-REPO-URL),
->   [#82](GIT-REPO-URL),
->   [#92](GIT-REPO-URL)
+> - Learned the full upstream contribution cycle: fork → PR → cross-team review
+>   via internal Slack channels → merge → release → downstream bump.
+> - Bootstrapped a repo that had zero CI and zero tests — added GitHub Actions,
+>   pre-commit, CODEOWNERS, unit tests, and migrated to pyproject.toml.
+> - Learned that upstream merge timelines are unpredictable — implemented a
+>   downstream workaround pattern to unblock deployment while waiting.
+> - PRs: [upstream-messaging-lib #76](GIT-REPO-URL), [#77](GIT-REPO-URL),
+>   [#82](GIT-REPO-URL), [#92](GIT-REPO-URL)
 
-### Guidelines
+## Guidelines
 
-- Include full URLs for all Jira tickets and PRs/MRs
+- Include full URLs for all Jira tickets and PRs/MRs.
 - Link Jiras to `https://redhat.atlassian.net/browse/{KEY}` unless the input
-  report already provides a different full Jira URL
-- Link PRs/MRs to their full Git hosting URL
-- Key-results should be what was planned (forward-looking)
-- "I did:" should be what was actually accomplished (past tense)
-- Be factual — do not invent or embellish
+  report already provides a different full Jira URL.
+- Link PRs/MRs to their full Git hosting URL.
+- Key-results should be what was planned (forward-looking).
+- "I did:" should be what was actually accomplished (past tense).
+- Be factual — do not invent or embellish.
+- If the input reports only show a reference/open PR, state that it is a
+  reference/open PR rather than implying it merged.
 
 ## Output rules
 
-- Write in first person
-- Be factual; base everything on the input reports
-- Do not invent accomplishments not visible in the input data
-- Ask the user for clarification if the reports lack context for a goal
-  (e.g., obstacles faced, learning outcomes, stakeholder interactions)
+- Write in first person.
+- Be factual; base everything on the input reports.
+- Do not invent accomplishments not visible in the input data.
+- Ask the user for clarification if the reports lack context for a goal (e.g.,
+  obstacles faced, learning outcomes, stakeholder interactions).
 
-Export the report as a markdown file named
+For the standard combined report, export:
+
 `rh-quarterly-connection-{QUARTER}-goals-accomplishments-ideas.md`
-(e.g. `rh-quarterly-connection-2026Q2-goals-accomplishments-ideas.md`).
+
+For a user request focused only on accomplishment drafts or a non-default count,
+export:
+
+`rh-quarterly-connection-{QUARTER}-accomplishment-drafts.md`
